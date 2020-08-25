@@ -112,7 +112,34 @@ def top_files(query, files, idfs, n):
     to their IDF values), return a list of the filenames of the the `n` top
     files that match the query, ranked according to tf-idf.
     """
-    raise NotImplementedError
+    # Count frequencies
+    frequencies = dict()
+    for filename in file_words:
+        text = file_words[filename]
+        words_counter = dict()
+        for word in text:
+            if word not in words_counter:
+                words_counter[word] = 1
+            else:
+                words_counter[word] += 1
+        frequencies[filename] = words_counter
+    # Calculate tfidfs
+    tfidfs = dict()
+    for filename in frequencies:
+        tfidfs[filename] = []
+        for word in frequencies[filename]:
+            tf = frequencies[filename][word]
+            tfidfs[filename].append((word, tf * file_idfs[word]))
+    # Determine list of the filenames of the n top files 
+    relevant_tfids = dict()
+    for filename in tfidfs:
+        value = 0
+        for entry in tfidfs[filename]:
+            if list(entry)[0] in query:
+                value += list(entry)[1]
+        relevant_tfids[filename] = value
+    result = sorted(relevant_tfids, key=relevant_tfids.get, reverse=True)
+    return result[0:n]
 
 
 def top_sentences(query, sentences, idfs, n):
