@@ -58,7 +58,7 @@ def load_files(directory):
                     value = file.read()
                     corpus[key] = value
     return corpus
-
+    
 
 def tokenize(document):
     """
