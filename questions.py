@@ -131,14 +131,14 @@ def top_files(query, files, idfs, n):
             tf = frequencies[filename][word]
             tfidfs[filename].append((word, tf * idfs[word]))
     # Determine list of the filenames of the n top files 
-    relevant_tfids = dict()
+    relevant_tfidfs = dict()
     for filename in tfidfs:
         value = 0
         for entry in tfidfs[filename]:
             if list(entry)[0] in query:
                 value += list(entry)[1]
-        relevant_tfids[filename] = value
-    result = sorted(relevant_tfids, key=relevant_tfids.get, reverse=True)
+        relevant_tfidfs[filename] = value
+    result = sorted(relevant_tfidfs, key=relevant_tfidfs.get, reverse=True)
     return result[0:n]
 
 
@@ -150,7 +150,17 @@ def top_sentences(query, sentences, idfs, n):
     the query, ranked according to idf. If there are ties, preference should
     be given to sentences that have a higher query term density.
     """
-    raise NotImplementedError
+    relevant_idfs = dict()
+    for sentence, tokens in sentences.items():
+        length = len(tokens)
+        tokens_in_query = len([word for word in tokens if word in query])
+        value = tokens_in_query / length
+        for word, idf_score in idfs.items():
+            if word in query and word in tokens:
+                value += idf_score
+        relevant_idfs[sentence] = value
+    result = sorted(relevant_idfs, key=relevant_idfs.get, reverse=True)
+    return result[0:n]
 
 
 if __name__ == "__main__":
