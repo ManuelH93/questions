@@ -114,8 +114,8 @@ def top_files(query, files, idfs, n):
     """
     # Count frequencies
     frequencies = dict()
-    for filename in file_words:
-        text = file_words[filename]
+    for filename in files:
+        text = files[filename]
         words_counter = dict()
         for word in text:
             if word not in words_counter:
@@ -129,7 +129,7 @@ def top_files(query, files, idfs, n):
         tfidfs[filename] = []
         for word in frequencies[filename]:
             tf = frequencies[filename][word]
-            tfidfs[filename].append((word, tf * file_idfs[word]))
+            tfidfs[filename].append((word, tf * idfs[word]))
     # Determine list of the filenames of the n top files 
     relevant_tfids = dict()
     for filename in tfidfs:
