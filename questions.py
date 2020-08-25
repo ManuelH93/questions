@@ -58,7 +58,7 @@ def load_files(directory):
                     value = file.read()
                     corpus[key] = value
     return corpus
-    
+
 
 def tokenize(document):
     """
@@ -68,7 +68,18 @@ def tokenize(document):
     Process document by coverting all words to lowercase, and removing any
     punctuation or English stopwords.
     """
-    raise NotImplementedError
+    punctuation = []
+    for character in string.punctuation:
+        punctuation.append(character)
+    stopwords = nltk.corpus.stopwords.words("english")
+    # Note: This keeps the word "n't". To also remove this word,
+    # we could add "n't' to the list of stopwords."
+    words = [
+            word.lower() for word in
+            nltk.word_tokenize(document)
+        ]
+    words = [word for word in words if word not in punctuation and word not in stopwords]
+    return words
 
 
 def compute_idfs(documents):
