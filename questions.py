@@ -56,7 +56,7 @@ def load_files(directory):
         for name in files:
             if name.endswith('.txt'):
                 with open(os.path.join(path, name)) as file:
-                    key = name[0:-4]
+                    key = name
                     value = file.read()
                     corpus[key] = value
     return corpus
