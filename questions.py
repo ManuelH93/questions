@@ -4,6 +4,7 @@ import os
 import string
 import math
 
+
 FILE_MATCHES = 1
 SENTENCE_MATCHES = 1
 
